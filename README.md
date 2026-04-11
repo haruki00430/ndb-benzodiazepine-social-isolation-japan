@@ -1,3 +1,5 @@
+﻿> **正本リポジトリ（GitHub Private）：** https://github.com/haruki00430/NDB_XXX_social_isolation_bz
+
 # 社会的孤立とベンゾジアゼピン系薬剤処方の関連解析
 (NDB_XXX_social_isolation_bz)
 
