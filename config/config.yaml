@@ -1,0 +1,120 @@
+# config.yaml — NDB_XXX_social_isolation_bz
+# 社会的孤独（独居老人率）× BZ系薬剤処方 都道府県エコロジカル研究
+# コード・パス・解析パラメータを一元管理。スクリプト直書き禁止。
+
+project:
+  name: "NDB_XXX_social_isolation_bz"
+  description: "高齢者の社会的孤独とBZ系薬剤処方の地域格差（都道府県N=47, 横断的生態学的研究）"
+  ndb_version: "No.10"
+  study_year_receipt: "FY2023"
+  study_year_census: 2020
+
+random_seed: 42
+
+# ============================================================
+# 曝露変数: e-Stat API 設定（2020年国勢調査）
+# ============================================================
+estat:
+  census_year: 2020
+  # 2020年国勢調査 主要統計表
+  # 一般世帯の家族類型（単独世帯） × 世帯主の年齢 × 都道府県別
+  # 以下IDはe-Stat API検索で確認要。スクリプト02で自動検索。
+  stats_data_id_solo_households: ""    # 実行時に02スクリプトが検索
+  stats_data_id_age_population:  ""    # 実行時に02スクリプトが検索
+  cd_area: "01000-47000"               # 全47都道府県
+  # フィルタキーワード
+  solo_household_keyword: "単独世帯"
+  age_65plus_label: "65歳以上"
+  census_cache_file: "data/raw/census_isolation_2020.csv"
+
+# ============================================================
+# 主アウトカム: BZ系処方薬（薬効分類コード）
+# ============================================================
+bz_drugs:
+  drug_effect_codes:
+    - "112"    # 催眠鎮静剤・抗不安薬
+    - "117"    # 精神神経用剤
+  # 処方薬Excelのファイル構造（01_extract_ndb396.py で確認済みパターン）
+  header_row: 2          # 0-indexed（行0=タイトル, 1=空白, 2=ヘッダー）
+  pref_col_start: 9      # 都道府県列開始（0-indexed）
+  pref_col_end: 56       # 都道府県列終了（exclusive, 47都道府県分）
+  target_files:
+    outpatient_ext: "【内服】外来（院外）_都道府県別薬効分類別数量.xlsx"
+    outpatient_int: "【内服】外来（院内）_都道府県別薬効分類別数量.xlsx"
+    inpatient:      "【内服】入院_都道府県別薬効分類別数量.xlsx"
+
+# ============================================================
+# 副アウトカム: 医科診療行為（患者数）
+# ============================================================
+secondary_outcomes:
+  # 医科診療行為Excelの列位置（処方薬と異なる点に注意）
+  header_row: 2
+  pref_col_start: 6      # 医科診療行為は列6〜52
+  pref_col_end: 53
+  homecare:
+    section_label: "C_在宅医療"
+    filename: "都道府県別患者数.xlsx"
+    output_col: "homecare_patients"
+  psychiatry:
+    section_label: "I_精神科専門療法料"
+    filename: "都道府県別患者数.xlsx"
+    output_col: "psychiatry_patients"
+
+# ============================================================
+# 解析パラメータ
+# ============================================================
+analysis:
+  outcome_primary: "bz_drug_rate"         # BZ処方量/人口10万人（外来）
+  outcome_log:     "log_bz_drug_rate"     # 対数変換版（感度分析Spec5）
+  exposure_main:   "solo_elderly_rate"    # 独居老人率（主説明変数）
+  covariates:
+    - "aging_rate"
+    - "pop_density"
+    - "income_per_capita"
+  sensitivity_specs:
+    - "Spec1_Baseline"        # 標準OLS（nonrobust）
+    - "Spec2_HC3"             # HC3 robust SE（主解析）
+    - "Spec3_OutlierRemoved"  # ±2SD除外（N≈44-45）
+    - "Spec4_NoBig3"          # 東京・大阪・愛知除外（N=44）
+    - "Spec5_LogY"            # log(bz_drug_rate) を従属変数
+    - "Spec6_Interaction"     # 独居老人率 × 所得 の交互作用項
+  big3_prefectures:
+    - "13"    # 東京都
+    - "27"    # 大阪府
+    - "23"    # 愛知県
+  secondary_outcomes:
+    - "homecare_rate"       # 在宅医療患者数/65歳以上人口10,000人
+    - "psychiatry_rate"     # 精神科専門療法料患者数/人口10万人
+  spatial:
+    weight_type: "queen"
+    permutations: 999
+    significance_level: 0.05
+    target_vars:
+      - "bz_drug_rate"
+      - "solo_elderly_rate"
+      - "homecare_rate"
+      - "psychiatry_rate"
+
+# ============================================================
+# ファイルパス（プロジェクトルート相対）
+# ============================================================
+paths:
+  ndb_root: "../../02_Data/raw/NDB_OpenData/No.10"
+  prescription_dir: "05_処方薬/01_公費レセプトを含まないデータ/01_処方薬（内服／外用／注射）"
+  homecare_dir:     "01_医科診療行為（患者数）/01_公費レセプトを含まないデータ/C_在宅医療"
+  psychiatry_dir:   "01_医科診療行為（患者数）/01_公費レセプトを含まないデータ/I_精神科専門療法料"
+  geojson:          "../../02_Data/raw/GIS/japan.geojson"
+  poverty_covariates: "../NDB_XXX_poverty_tgi/03_Analysis/results/covariates.csv"
+  results_dir:      "03_Analysis/results"
+  log_dir:          "logs"
+
+# ============================================================
+# 可視化設定
+# ============================================================
+visualization:
+  japanese_font: "Meiryo"
+  dpi: 300
+  figure_format: "png"
+  colormap_choropleth: "YlOrRd"
+  color_significant: "#e74c3c"
+  color_nonsignificant: "#95a5a6"
