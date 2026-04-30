@@ -175,15 +175,15 @@ def main():
 
         from matplotlib.patches import Patch
         legend_elements = [
-            Patch(facecolor="#d7191c", label="High-High（高-高クラスタ）"),
-            Patch(facecolor="#fdae61", label="High-Low（高-低外れ値）"),
-            Patch(facecolor="#abd9e9", label="Low-High（低-高外れ値）"),
-            Patch(facecolor="#2c7bb6", label="Low-Low（低-低クラスタ）"),
-            Patch(facecolor="#f0f0f0", label="非有意"),
+            Patch(facecolor="#d7191c", label="High-High Cluster"),
+            Patch(facecolor="#fdae61", label="High-Low Outlier"),
+            Patch(facecolor="#abd9e9", label="Low-High Outlier"),
+            Patch(facecolor="#2c7bb6", label="Low-Low Cluster"),
+            Patch(facecolor="#f0f0f0", label="Not Significant"),
         ]
         ax.legend(handles=legend_elements, loc="lower left", fontsize=9)
         ax.set_title(
-            "LISA クラスタ地図\nBZ系薬剤処方率（都道府県別, FY2023）",
+            "Figure 5. LISA Cluster Map\nBZ Drug Prescription Rate (Prefecture-Level, FY2023)",
             fontsize=13, pad=12)
         ax.axis("off")
         plt.tight_layout()

@@ -73,10 +73,10 @@ def fig1_choropleth(df: pd.DataFrame, gdf: gpd.GeoDataFrame, cfg: dict):
     cmap = cfg["visualization"]["colormap_choropleth"]
     gdf.plot(column="bz_drug_rate", ax=ax,
              cmap=cmap, legend=True,
-             legend_kwds={"label": "BZ処方量/人口10万人", "shrink": 0.6},
+             legend_kwds={"label": "BZ Prescriptions per 100,000 Population", "shrink": 0.6},
              edgecolor="white", linewidth=0.4,
              missing_kwds={"color": "lightgrey"})
-    ax.set_title("Figure 1. BZ系薬剤処方量の都道府県別分布\n（薬効分類112+117, FY2023, NDB No.10）",
+    ax.set_title("Figure 1. Prefectural Distribution of BZ Drug Prescription Volume\n(Drug Categories 112+117, FY2023, NDB No.10)",
                  fontsize=13, pad=12)
     ax.axis("off")
     plt.tight_layout()
@@ -107,8 +107,8 @@ def fig2_forest_plot(sens_df: pd.DataFrame, cfg: dict):
     ax.axvline(0, color="black", linewidth=0.8, linestyle="--")
     ax.set_yticks(y_pos)
     ax.set_yticklabels(sub["spec_label"], fontsize=10)
-    ax.set_xlabel("回帰係数 β（独居老人率 → BZ処方量/10万人）", fontsize=11)
-    ax.set_title("Figure 2. 感度分析 Forest Plot\n（赤=p<0.05, 灰=非有意）",
+    ax.set_xlabel("Regression Coefficient β (Solo Elderly Rate → BZ Prescriptions per 100,000)", fontsize=11)
+    ax.set_title("Figure 2. Sensitivity Analysis Forest Plot\n(Red = p < 0.05; Grey = Non-significant)",
                  fontsize=12, pad=10)
     ax.invert_yaxis()
     plt.tight_layout()
@@ -121,9 +121,9 @@ def fig2_forest_plot(sens_df: pd.DataFrame, cfg: dict):
 def fig3_scatter(df: pd.DataFrame, cfg: dict):
     """Figure 3: bz_drug_rate vs 各説明変数の散布図（3枚）"""
     pairs = [
-        ("solo_elderly_rate", "独居老人率（2020年国勢調査）"),
-        ("aging_rate",        "高齢化率（%）"),
-        ("income_per_capita", "1人当たり県民所得（千円）"),
+        ("solo_elderly_rate", "Solo Elderly Rate (2020 Census)"),
+        ("aging_rate",        "Aging Rate (%)"),
+        ("income_per_capita", "Per Capita Prefectural Income (1,000 JPY)"),
     ]
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
@@ -136,10 +136,10 @@ def fig3_scatter(df: pd.DataFrame, cfg: dict):
         ax.plot(xline, m * xline + b, "r--", linewidth=1.2)
         r = df[[xcol, "bz_drug_rate"]].corr().iloc[0, 1]
         ax.set_xlabel(xlabel, fontsize=10)
-        ax.set_ylabel("BZ処方量/人口10万人", fontsize=10)
+        ax.set_ylabel("BZ Prescriptions per 100,000 Population", fontsize=10)
         ax.set_title(f"r = {r:.3f}", fontsize=11)
 
-    fig.suptitle("Figure 3. BZ系薬剤処方率と各説明変数の散布図",
+    fig.suptitle("Figure 3. Scatter Plots of BZ Prescription Rate Against Explanatory Variables",
                  fontsize=13, y=1.02)
     plt.tight_layout()
     out = RESULTS_DIR / "fig3_scatter_plots.png"
@@ -178,8 +178,8 @@ def fig4_moran_scatter(df: pd.DataFrame, cfg: dict):
     ax.plot(xline, m * xline + b, "r-", linewidth=1.5)
     ax.axhline(0, color="grey", linewidth=0.6, linestyle="--")
     ax.axvline(0, color="grey", linewidth=0.6, linestyle="--")
-    ax.set_xlabel("標準化 BZ処方率", fontsize=11)
-    ax.set_ylabel("空間ラグ（隣接都道府県の平均）", fontsize=11)
+    ax.set_xlabel("Standardized BZ Prescription Rate", fontsize=11)
+    ax.set_ylabel("Spatial Lag (Mean of Neighbouring Prefectures)", fontsize=11)
     ax.set_title(f"Figure 4. Moran Scatter Plot\n"
                  f"I = {mi.I:.4f},  p = {mi.p_sim:.4f}",
                  fontsize=12)
