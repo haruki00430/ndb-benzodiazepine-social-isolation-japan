@@ -19,6 +19,8 @@ ENV/
 02_Data/raw/
 02_Data/processed/
 *.csv
+# Exception: aggregate release data (N=47, no individual data)
+!data/release/*.csv
 *.xlsx
 *.parquet
 *.sqlite

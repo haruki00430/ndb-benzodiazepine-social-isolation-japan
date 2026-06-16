@@ -1,38 +1,102 @@
-﻿> **正本リポジトリ（GitHub Private）：** https://github.com/haruki00430/NDB_XXX_social_isolation_bz
+# Social Isolation and Benzodiazepine Prescribing Disparities in Japan
 
-# 社会的孤立とベンゾジアゼピン系薬剤処方の関連解析
-(NDB_XXX_social_isolation_bz)
+**A Prefecture-Level Ecological Study**
 
-## ステータス（2026-04-05 リポジトリ照合）
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- `analysis/debug_bz_codes.py` のみ確認。本 README の Phase 1–3 は**計画**。原稿用 `.qmd` は未配置。
+> **GitHub repository:** https://github.com/haruki00430/NDB_XXX_social_isolation_bz
 
-## プロジェクトの目的
+## Overview
 
-高齢者を対象に、**ベンゾジアゼピン（BZ）系睡眠薬・抗不安薬**の処方量（人口あたりまたは高齢者人口あたり）と、**社会的孤立指標**（65歳以上単独世帯率＝独居老人割合等）の地域相関を都道府県単位の生態学研究で検証する。NDBオープンデータの薬効分類別数量と国勢調査の実数を用い、解釈のブレが少ない指標で堅牢な関連を評価する。空間的自己相関（Global Moran's I）と地理的加重回帰（GWR）により地域集積性と局所的な関連のばらつきを検討する。
+This repository contains the analysis code, aggregate data (N = 47 prefectures), and manuscript source for a cross-sectional ecological study examining whether the prefecture-level prevalence of older adults living alone explains regional variation in benzodiazepine (BZ) receptor agonist prescribing in Japan.
 
-## データソース
+**Key findings:**
 
-- **内部データ:** NDBオープンデータ第10回「薬効分類別数量」
-  - 薬効分類 112（催眠鎮静剤）、117（精神神経用剤）を抽出（BZ系・Z-drug 等の区別は成分名・薬効コードで対応）
-  - 内服・外来（院外・院内）を対象
-- **外部データ:** 令和2年国勢調査（e-Stat APIまたはCSV）
-  - 都道府県別・65歳以上人口、65歳以上単独世帯数（独居）、高齢者就業率等
+- The solo elderly rate (proportion of older adults aged ≥65 years living alone) was **not** significantly associated with BZ prescription volume (β = 838,000 per 100,000; p = 0.856; **0/6** sensitivity specifications)
+- Aging rate was the only robust predictor (β = 151,480; p = 0.008; **6/6** specifications; R² = 0.322)
+- BZ prescribing showed significant positive spatial autocorrelation (Moran's I = 0.348; p = 0.003)
 
-## 解析の流れ
+## Data Sources
 
-- **Phase 1:** BZ処方量の抽出・国勢調査との結合、統合データセット作成
-- **Phase 2:** 高齢者1人あたりBZ処方数量（SPR的指標）の算出、都道府県別地図・独居率マップの可視化
-- **Phase 3:** Global Moran's I、GWR（目的変数: 高齢者1人あたりBZ処方量、説明変数: 独居老人率、失業率、精神科医師数等）
+| Source | Content | Year |
+|--------|---------|------|
+| NDB Open Data (10th edition) | BZ prescription volume (drug codes 112, 117) by prefecture | FY2023 |
+| 2020 National Census | Single-person households aged ≥65 years (solo elderly rate) | 2020 |
+| Population Estimates | Prefecture-level total population and aging rate | 2023 |
+| Cabinet Office | Per capita prefectural income | FY2021 |
 
-## 構造
+See [DATA_SOURCES.md](DATA_SOURCES.md) for full details and URLs.
 
-- `implementation_plan.md`: 目的・ディレクトリ構造・ETL戦略・解析フェーズ・タスクリスト
-- `analysis/`: BZ抽出・国勢調査読込・SPR算出・空間解析用スクリプト（計画に沿って順次実装）
+## Repository Structure
 
-計画上は `config/config.yaml`（薬剤コード112/117、対象年齢等）、`data/raw/`・`data/interim/`、`results/figures/`・`results/reports/` を想定。
+```
+NDB_XXX_social_isolation_bz/
+├── 03_Analysis/
+│   ├── scripts/                    # Analysis scripts (run in order 01→07)
+│   │   ├── 01_extract_bz_drugs.py
+│   │   ├── 02_fetch_census_isolation.py
+│   │   ├── 03_load_secondary_outcomes.py
+│   │   ├── 04_integrate_dataset.py
+│   │   ├── 05_ols_regression.py
+│   │   ├── 06_spatial_autocorrelation.py
+│   │   └── 07_visualization.py
+│   └── results/                    # Output figures (PNG)
+├── 04_Manuscripts/
+│   ├── 09Manuscript_social_isolation_bz_AGG_submission.qmd   # Submission manuscript (QMD)
+│   ├── highlights_social_isolation_bz.qmd
+│   ├── references.bib
+│   └── apa.csl
+├── config/
+│   └── config.yaml                 # Drug codes, thresholds
+├── data/
+│   └── release/                    # Aggregate data for reproducibility (N=47, no individual data)
+├── CITATION.cff
+├── REPRODUCE.md
+├── DATA_SOURCES.md
+└── LICENSE
+```
 
-## 注意事項
+## Reproducing the Analysis
 
-- NDB生データは読取専用。実データを外部AIに送信しないこと（CLAUDE.md準拠）。
-- 処方「数量」を高齢者人口で割った指標を用い、患者数への無理な換算は行わない。
+See [REPRODUCE.md](REPRODUCE.md) for step-by-step instructions.
+
+**Quick start:**
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Place NDB Open Data (10th edition) in data/raw/NDB/ (not included; publicly available)
+
+# 3. Run scripts in order
+python 03_Analysis/scripts/01_extract_bz_drugs.py
+python 03_Analysis/scripts/02_fetch_census_isolation.py
+python 03_Analysis/scripts/03_load_secondary_outcomes.py
+python 03_Analysis/scripts/04_integrate_dataset.py
+python 03_Analysis/scripts/05_ols_regression.py
+python 03_Analysis/scripts/06_spatial_autocorrelation.py
+python 03_Analysis/scripts/07_visualization.py
+```
+
+The aggregate analysis dataset (N=47 prefectures) is included in `data/release/` for direct use without running the full pipeline.
+
+## Citation
+
+If you use this code or data, please cite:
+
+> Saito, H. (2026). *Social Isolation and Benzodiazepine Prescribing Disparities in Japan: A Prefecture-Level Ecological Study* [Data and code]. Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
+
+See [CITATION.cff](CITATION.cff) for machine-readable citation metadata.
+
+## License
+
+MIT License. See [LICENSE](LICENSE) for details.
+
+## Author
+
+**Haruki Saito**  
+Fukushima Medical University School of Medicine, Fukushima, Japan  
+m211039@fmu.ac.jp
+
+## Ethics Statement
+
+This study used publicly available, de-identified, aggregate-level administrative data (NDB Open Data and National Census). No individual-level data were accessed. No ethics committee approval was required under applicable Japanese national guidelines for secondary research using publicly available aggregate statistics.

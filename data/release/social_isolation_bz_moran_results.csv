@@ -1,0 +1,5 @@
+﻿variable,moran_I,p_value,z_score,EI
+bz_drug_rate,0.3477,0.001,3.5577,-0.0217
+solo_elderly_rate,0.3488,0.002,3.5217,-0.0217
+homecare_rate,0.244,0.011,2.669,-0.0217
+psychiatry_rate,-0.1173,0.165,-0.9616,-0.0217

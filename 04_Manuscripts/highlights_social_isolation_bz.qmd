@@ -1,0 +1,14 @@
+---
+title: "Highlights"
+format:
+  docx:
+    toc: false
+---
+
+**Highlights**
+
+- Solo elderly rate did not predict BZ prescribing across 47 Japanese prefectures
+- Aging rate was the sole significant predictor of BZ prescribing (6/6 specifications)
+- BZ prescribing showed significant spatial clustering (Moran's I = 0.348, p = 0.003)
+- Supply-side factors, not social isolation, likely drive geographic BZ disparities
+- Deprescribing systems and physician education may reduce regional BZ variation

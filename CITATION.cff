@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite it using the metadata below."
+title: "Social Isolation and Benzodiazepine Prescribing Disparities in Japan: A Prefecture-Level Ecological Study"
+version: 1.0.0
+date-released: "2026-06-16"
+license: MIT
+authors:
+  - family-names: "Saito"
+    given-names: "Haruki"
+    affiliation: "Fukushima Medical University School of Medicine"
+    email: "m211039@fmu.ac.jp"
+abstract: >
+  Prefecture-level cross-sectional ecological study (N=47 prefectures) testing whether
+  the proportion of older adults living alone (solo elderly rate, 2020 National Census)
+  explains regional variation in benzodiazepine (BZ) prescription volume (NDB Open Data,
+  FY2023). The solo elderly rate was not significantly associated with BZ prescribing
+  across all six sensitivity analyses (0/6 specifications; p=0.856). Aging rate was
+  the only robust predictor (6/6 specifications; p=0.008; R²=0.322). Significant
+  positive spatial autocorrelation was detected (Moran's I=0.348; p=0.003).
+keywords:
+  - "social isolation"
+  - "benzodiazepine"
+  - "older adults"
+  - "geographic disparities"
+  - "ecological study"
+  - "Japan"
+  - "NDB Open Data"
+  - "spatial autocorrelation"
+  - "Moran's I"
+  - "prefecture-level"
+repository-code: "https://github.com/haruki00430/NDB_XXX_social_isolation_bz"
+doi: "10.5281/zenodo.XXXXXXX"
+url: "https://doi.org/10.5281/zenodo.XXXXXXX"
+type: software
