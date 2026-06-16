@@ -160,7 +160,7 @@ In this prefecture-level ecological study using 2020 National Census small-area 
 
 # Data Availability
 
-The NDB Open Data used in this study are publicly available from the Ministry of Health, Labour and Welfare of Japan (https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000177182.html). National Census data were obtained from the e-Stat portal of the Statistics Bureau, Ministry of Internal Affairs and Communications (https://www.e-stat.go.jp/). Analytical scripts are available from the corresponding author upon reasonable request.
+The NDB Open Data used in this study are publicly available from the Ministry of Health, Labour and Welfare of Japan (https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000177182.html). National Census data were obtained from the e-Stat portal of the Statistics Bureau, Ministry of Internal Affairs and Communications (https://www.e-stat.go.jp/). The analysis code and aggregate prefecture-level data (N = 47) supporting the findings of this study are openly available on Zenodo at https://doi.org/10.5281/zenodo.20713830.
 
 ---
 

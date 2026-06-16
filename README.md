@@ -83,7 +83,7 @@ The aggregate analysis dataset (N=47 prefectures) is included in `data/release/`
 
 If you use this code or data, please cite:
 
-> Saito, H. (2026). *Social Isolation and Benzodiazepine Prescribing Disparities in Japan: A Prefecture-Level Ecological Study* [Data and code]. Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
+> Saito, H. (2026). *Social Isolation and Benzodiazepine Prescribing Disparities in Japan: A Prefecture-Level Ecological Study* [Data and code]. Zenodo. https://doi.org/10.5281/zenodo.20713830
 
 See [CITATION.cff](CITATION.cff) for machine-readable citation metadata.
 
