@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this code or data, please cite it using the metadata below."
-title: "Social Isolation and Benzodiazepine Prescribing Disparities in Japan: A Prefecture-Level Ecological Study"
+title: "What Explains Regional Benzodiazepine Prescribing Variation Under Universal Health Coverage? A Nationwide Ecological Study from Japan"
 version: 1.0.0
 date-released: "2026-06-16"
 license: MIT
@@ -9,6 +9,11 @@ authors:
     given-names: "Haruki"
     affiliation: "Fukushima Medical University School of Medicine"
     email: "m211039@fmu.ac.jp"
+    orcid: "https://orcid.org/0009-0009-7890-6068"
+  - family-names: "Ohira"
+    given-names: "Tetsuya"
+    affiliation: "Fukushima Medical University School of Medicine"
+    orcid: "https://orcid.org/0000-0003-4532-7165"
 abstract: >
   Prefecture-level cross-sectional ecological study (N=47 prefectures) testing whether
   the proportion of older adults living alone (solo elderly rate, 2020 National Census)
@@ -28,7 +33,7 @@ keywords:
   - "spatial autocorrelation"
   - "Moran's I"
   - "prefecture-level"
-repository-code: "https://github.com/haruki00430/NDB_XXX_social_isolation_bz"
+repository-code: "https://github.com/haruki00430/ndb-benzodiazepine-social-isolation-japan"
 doi: "10.5281/zenodo.20713830"
 url: "https://doi.org/10.5281/zenodo.20713830"
 type: software

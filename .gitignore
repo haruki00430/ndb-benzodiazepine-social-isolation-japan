@@ -59,3 +59,7 @@ data/raw/MLIT_N03/
 **/MLIT_N03/
 data/raw/**/*.xml
 data/temp/**/*.xml
+
+# 投稿パッケージ（内部使用・非公開）
+04_Manuscripts/submission_package_SPPE/
+デスクトップ用/
